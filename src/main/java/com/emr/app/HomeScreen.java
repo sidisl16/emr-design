@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.JLayeredPane;
+import javax.swing.BoxLayout;
+import java.awt.Toolkit;
 
 public class HomeScreen extends JFrame {
 
@@ -52,6 +55,15 @@ public class HomeScreen extends JFrame {
 	private JPanel settingsBtn;
 	private JPanel subMenuContainer;
 	private JLabel settingsIcon;
+	private JLayeredPane bodyLayeredPan;
+	private JPanel appointmentPanel;
+	private JPanel appointmentHeadingPanel;
+	private JPanel addRefreshAppointmentContainer;
+	private JPanel refreshPanel;
+	private JPanel addPanel;
+	private JLabel refreshIcon;
+	private JLabel addIcon;
+	private JLabel AppointmentHeading;
 
 	/**
 	 * Launch the application.
@@ -74,11 +86,15 @@ public class HomeScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public HomeScreen() {
+		setTitle("Orange EMR");
+		setFont(new Font("Open Sans", Font.BOLD, 12));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(HomeScreen.class.getResource("/com/emr/app/images/breakfast-30.png")));
 		setBackground(Color.decode("#ffffff"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 880, 500);
 		setResizable(true);
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setFont(new Font("Open Sans", Font.PLAIN, 12));
 		contentPane.setBackground(Color.decode("#ffffff"));
@@ -210,7 +226,7 @@ public class HomeScreen extends JFrame {
 		settingsBtn.setPreferredSize(new Dimension(10, 53));
 		settingsBtn.setLayout(new BorderLayout(0, 0));
 		settingsBtn.setBackground(Color.decode("#0d0d0d"));
-		// settingsBtn.setBorder(new LineBorder(Color.decode("#737373")));
+		//settingsBtn.setBorder(new LineBorder(Color.decode("#737373")));
 		menuContainer.add(settingsBtn, BorderLayout.SOUTH);
 
 		settingsIcon = new JLabel("");
@@ -303,6 +319,62 @@ public class HomeScreen extends JFrame {
 		usersLbl.setFont(new Font("Open Sans", Font.BOLD, 12));
 		usersLbl.setForeground(new Color(217, 217, 217));
 		usersBtn.add(usersLbl, BorderLayout.SOUTH);
+		
+		bodyLayeredPan = new JLayeredPane();
+		contentPane.add(bodyLayeredPan, BorderLayout.CENTER);
+		bodyLayeredPan.setLayout(new BorderLayout(0, 0));
+		
+		appointmentPanel = new JPanel();
+		appointmentPanel.setToolTipText("");
+		appointmentPanel.setBackground(Color.decode("#ffffff"));
+		bodyLayeredPan.add(appointmentPanel, BorderLayout.CENTER);
+		appointmentPanel.setLayout(new BorderLayout(0, 0));
+		
+		appointmentHeadingPanel = new JPanel();
+		appointmentHeadingPanel.setBorder(new LineBorder(Color.decode("#bfbfbf")));
+		appointmentHeadingPanel.setBackground(Color.decode("#4d94ff"));
+		appointmentHeadingPanel.setPreferredSize(new Dimension(10, 50));
+		appointmentPanel.add(appointmentHeadingPanel, BorderLayout.NORTH);
+		appointmentHeadingPanel.setLayout(new BorderLayout(0, 0));
+		
+		addRefreshAppointmentContainer = new JPanel();
+		addRefreshAppointmentContainer.setBackground(Color.decode("#4d94ff"));
+		addRefreshAppointmentContainer.setPreferredSize(new Dimension(110, 10));
+		appointmentHeadingPanel.add(addRefreshAppointmentContainer, BorderLayout.EAST);
+		addRefreshAppointmentContainer.setLayout(null);
+		
+		refreshPanel = new JPanel();
+		refreshPanel.setToolTipText("Refresh");
+		refreshPanel.setBackground(Color.decode("#4d94ff"));
+		refreshPanel.setBounds(0, 0, 53, 48);
+		addRefreshAppointmentContainer.add(refreshPanel);
+		refreshPanel.setLayout(new BorderLayout(0, 0));
+		
+		refreshIcon = new JLabel("");
+		refreshIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/refresh-32.png")));
+		refreshIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		refreshIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		refreshPanel.add(refreshIcon, BorderLayout.CENTER);
+		
+		addPanel = new JPanel();
+		addPanel.setToolTipText("Add new Appointment");
+		addPanel.setBackground(Color.decode("#4d94ff"));
+		addPanel.setBounds(57, 0, 53, 48);
+		addRefreshAppointmentContainer.add(addPanel);
+		addPanel.setLayout(new BorderLayout(0, 0));
+		
+		addIcon = new JLabel("");
+		addIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/add-32.png")));
+		addIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		addIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		addPanel.add(addIcon, BorderLayout.CENTER);
+		
+		AppointmentHeading = new JLabel("Appointments");
+		AppointmentHeading.setForeground(Color.WHITE);
+		AppointmentHeading.setFont(new Font("Open Sans", Font.BOLD, 18));
+		AppointmentHeading.setHorizontalTextPosition(SwingConstants.CENTER);
+		AppointmentHeading.setHorizontalAlignment(SwingConstants.CENTER);
+		appointmentHeadingPanel.add(AppointmentHeading, BorderLayout.CENTER);
 
 	}
 
@@ -436,11 +508,37 @@ public class HomeScreen extends JFrame {
 				changeColor(Color.decode("#0d0d0d"), settingsBtn);
 			}
 		});
+		
+		refreshPanel.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeColor(Color.decode("#99c2ff"), refreshPanel);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				changeColor(Color.decode("#4d94ff"), refreshPanel);
+			}
+		});
+		
+		addPanel.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeColor(Color.decode("#99c2ff"), addPanel);
+			}
+			
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				changeColor(Color.decode("#4d94ff"), addPanel);
+			}
+		});
 
 	}
 
 	private void changeColor(Color color, Component component) {
 		component.setBackground(color);
 	}
-
 }
