@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,9 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import java.awt.Canvas;
 
-public class MainScreen extends JFrame {
+public class HomeScreen extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel titleBar;
@@ -55,11 +53,14 @@ public class MainScreen extends JFrame {
 	private JPanel subMenuContainer;
 	private JLabel settingsIcon;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainScreen frame = new MainScreen();
+					HomeScreen frame = new HomeScreen();
 					frame.initEvents();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -69,7 +70,10 @@ public class MainScreen extends JFrame {
 		});
 	}
 
-	public MainScreen() {
+	/**
+	 * Create the frame.
+	 */
+	public HomeScreen() {
 		setBackground(Color.decode("#ffffff"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
@@ -108,7 +112,7 @@ public class MainScreen extends JFrame {
 		maximizeIcon = new JLabel("");
 		maximizeIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		maximizeIcon.setHorizontalTextPosition(SwingConstants.CENTER);
-		maximizeIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/maximize-24.png")));
+		maximizeIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/maximize-24.png")));
 		maximizeBtn.add(maximizeIcon, BorderLayout.CENTER);
 
 		closeBtn = new JPanel();
@@ -120,7 +124,7 @@ public class MainScreen extends JFrame {
 		closeBtn.setLayout(new BorderLayout(0, 0));
 
 		closeIcon = new JLabel("");
-		closeIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/close-24.png")));
+		closeIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/close-24.png")));
 		closeIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		closeIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		closeBtn.add(closeIcon, BorderLayout.CENTER);
@@ -134,7 +138,7 @@ public class MainScreen extends JFrame {
 		minBtn.setLayout(new BorderLayout(0, 0));
 
 		minIcon = new JLabel("");
-		minIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/min-20.png")));
+		minIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/min-20.png")));
 		minIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		minIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		minBtn.add(minIcon, BorderLayout.CENTER);
@@ -148,7 +152,7 @@ public class MainScreen extends JFrame {
 		brandLogo = new JLabel("Orange");
 		brandLogo.setFont(new Font("Open Sans", Font.BOLD, 12));
 		brandLogo.setForeground(Color.decode("#ffffff"));
-		brandLogo.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/breakfast-30.png")));
+		brandLogo.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/breakfast-30.png")));
 		brandTitle.add(brandLogo, BorderLayout.CENTER);
 
 		midTitlePanel = new JPanel();
@@ -186,7 +190,7 @@ public class MainScreen extends JFrame {
 		nameBackLbl.setFont(new Font("Open Sans", Font.BOLD, 40));
 		nameBackLbl.setHorizontalTextPosition(SwingConstants.CENTER);
 		nameBackLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		nameBackLbl.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/nameBack-64.png")));
+		nameBackLbl.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/nameBack-64.png")));
 		nameBackLbl.setBounds(0, 12, 80, 70);
 		initialsPanel.add(nameBackLbl);
 
@@ -210,7 +214,7 @@ public class MainScreen extends JFrame {
 		menuContainer.add(settingsBtn, BorderLayout.SOUTH);
 
 		settingsIcon = new JLabel("");
-		settingsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/settings-32.png")));
+		settingsIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/settings-32.png")));
 		settingsIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		settingsIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		settingsBtn.add(settingsIcon, BorderLayout.CENTER);
@@ -228,7 +232,7 @@ public class MainScreen extends JFrame {
 		homeBtn.setLayout(new BorderLayout(0, 0));
 
 		homeIcon = new JLabel("");
-		homeIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/home-32.png")));
+		homeIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/home-32.png")));
 		homeIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		homeIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		homeBtn.add(homeIcon, BorderLayout.NORTH);
@@ -250,7 +254,7 @@ public class MainScreen extends JFrame {
 		historyIcon = new JLabel("");
 		historyIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		historyIcon.setHorizontalAlignment(SwingConstants.CENTER);
-		historyIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/history-32.png")));
+		historyIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/history-32.png")));
 		historyBtn.add(historyIcon, BorderLayout.NORTH);
 
 		historyLbl = new JLabel("History");
@@ -268,7 +272,7 @@ public class MainScreen extends JFrame {
 		inventoryBtn.setLayout(new BorderLayout(0, 0));
 
 		inventoryIcon = new JLabel("");
-		inventoryIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/inventory-32.png")));
+		inventoryIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/inventory-32.png")));
 		inventoryIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		inventoryIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		inventoryBtn.add(inventoryIcon, BorderLayout.NORTH);
@@ -288,7 +292,7 @@ public class MainScreen extends JFrame {
 		usersBtn.setLayout(new BorderLayout(0, 0));
 
 		usersIcon = new JLabel("");
-		usersIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/com/emr/app/images/users-32.png")));
+		usersIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/users-32.png")));
 		usersIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		usersIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		usersBtn.add(usersIcon, BorderLayout.NORTH);
@@ -380,7 +384,7 @@ public class MainScreen extends JFrame {
 				changeColor(Color.decode("#0d0d0d"), homeBtn);
 			}
 		});
-		
+
 		historyBtn.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -393,7 +397,7 @@ public class MainScreen extends JFrame {
 				changeColor(Color.decode("#0d0d0d"), historyBtn);
 			}
 		});
-		
+
 		inventoryBtn.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -406,7 +410,7 @@ public class MainScreen extends JFrame {
 				changeColor(Color.decode("#0d0d0d"), inventoryBtn);
 			}
 		});
-		
+
 		usersBtn.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -419,7 +423,7 @@ public class MainScreen extends JFrame {
 				changeColor(Color.decode("#0d0d0d"), usersBtn);
 			}
 		});
-		
+
 		settingsBtn.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -438,4 +442,5 @@ public class MainScreen extends JFrame {
 	private void changeColor(Color color, Component component) {
 		component.setBackground(color);
 	}
+
 }
