@@ -14,7 +14,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,6 +24,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 public class HomeScreen extends JFrame {
 
@@ -66,6 +69,23 @@ public class HomeScreen extends JFrame {
 	private JLayeredPane bodyLayeredPan;
 	private JPanel appointmentPanel;
 	private JPanel addPatientPanel;
+	private JPanel patientPanel;
+	private JPanel patientHeadingPanel;
+	private JPanel patientProfilePanel;
+	private JLabel patientLogoIcon;
+	private JPanel sideMenuPanel;
+	private JLabel patientProfileText;
+	private JPanel cancelPanel;
+	private JPanel sideMenuContainer;
+	private JPanel closeCasePanel;
+	private JLabel closeCaseIcon;
+	private JPanel viewPanel;
+	private JLabel viewIcon;
+	private JPanel downloadPanel;
+	private JLabel downloadIcon;
+	private JPanel savePanel;
+	private JLabel saveIcon;
+	private JLabel cancelIcon;
 
 	/**
 	 * Launch the application.
@@ -75,6 +95,7 @@ public class HomeScreen extends JFrame {
 			public void run() {
 				try {
 					HomeScreen frame = new HomeScreen();
+					frame.initEvents();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -87,9 +108,9 @@ public class HomeScreen extends JFrame {
 	 * Create the frame.
 	 */
 	public HomeScreen() {
-		initComponents();
-		initEvents();
 
+		initComponents();
+/**
 		Router.INSTANCE.setLayeredPane(bodyLayeredPan);
 
 		appointmentPanel = new AppointmentPanel();
@@ -98,7 +119,132 @@ public class HomeScreen extends JFrame {
 
 		addPatientPanel = new AddAppointmentPanel();
 		Router.INSTANCE.registerRoute(addPatientPanel);
-		bodyLayeredPan.add(addPatientPanel, "AddAppointmentPanel");
+		bodyLayeredPan.add(addPatientPanel, BorderLayout.CENTER);
+**/
+		patientPanel = new JPanel();
+		Router.INSTANCE.registerRoute(patientPanel);
+		bodyLayeredPan.add(patientPanel, BorderLayout.CENTER);
+
+		patientPanel.setBackground(Color.decode("#ffffff"));
+		patientPanel.setLayout(new BorderLayout(0, 0));
+
+		patientHeadingPanel = new JPanel();
+		patientHeadingPanel.setBorder(new LineBorder(Color.decode("#bfbfbf")));
+		patientHeadingPanel.setBackground(Color.decode("#4d94ff"));
+		patientHeadingPanel.setPreferredSize(new Dimension(70, 70));
+
+		patientPanel.add(patientHeadingPanel, BorderLayout.NORTH);
+		patientHeadingPanel.setLayout(new BorderLayout(0, 0));
+		
+		patientProfilePanel = new JPanel();
+		patientProfilePanel.setOpaque(false);
+		patientProfilePanel.setPreferredSize(new Dimension(450, 10));
+		patientHeadingPanel.add(patientProfilePanel, BorderLayout.WEST);
+		patientProfilePanel.setLayout(null);
+		
+		patientLogoIcon = new JLabel("S");
+		patientLogoIcon.setForeground(Color.decode("#262626"));
+		patientLogoIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		patientLogoIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		patientLogoIcon.setFont(new Font("Open Sans", Font.BOLD, 35));
+		patientLogoIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/patient-logo.png")));
+		patientLogoIcon.setBounds(22, 0, 64, 68);
+		patientProfilePanel.add(patientLogoIcon);
+		
+		patientProfileText = new JLabel();
+		patientProfileText.setText("PAT-32345  |  Siddharth Kumar   |  30 Male");
+		patientProfileText.setHorizontalTextPosition(SwingConstants.CENTER);
+		patientProfileText.setHorizontalAlignment(SwingConstants.CENTER);
+		patientProfileText.setForeground(Color.decode("#ffffff"));
+		patientProfileText.setFont(new Font("Open Sans", Font.BOLD, 14));
+		patientProfileText.setBounds(85, 12, 320, 47);
+		patientProfilePanel.add(patientProfileText);
+		
+		sideMenuPanel = new JPanel();
+		sideMenuPanel.setPreferredSize(new Dimension(400, 10));
+		sideMenuPanel.setOpaque(false);
+		patientHeadingPanel.add(sideMenuPanel, BorderLayout.EAST);
+		sideMenuPanel.setLayout(null);
+		
+		sideMenuContainer = new JPanel();
+		sideMenuContainer.setOpaque(false);
+		sideMenuContainer.setBounds(12, 12, 357, 44);
+		sideMenuPanel.add(sideMenuContainer);
+		sideMenuContainer.setLayout(null);
+		
+		closeCasePanel = new JPanel();
+		closeCasePanel.setToolTipText("Close Case");
+		closeCasePanel.setOpaque(false);
+		closeCasePanel.setBounds(77, 0, 44, 44);
+		sideMenuContainer.add(closeCasePanel);
+		closeCasePanel.setLayout(new BorderLayout(0, 0));
+		
+		closeCaseIcon = new JLabel("");
+		closeCaseIcon.setBackground(Color.decode("#4d94ff"));
+		closeCaseIcon.setOpaque(true);
+		closeCaseIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/close-32.png")));
+		closeCaseIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		closeCaseIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		closeCasePanel.add(closeCaseIcon, BorderLayout.CENTER);
+		
+		viewPanel = new JPanel();
+		viewPanel.setToolTipText("View Prescription");
+		viewPanel.setOpaque(false);
+		viewPanel.setBounds(133, 0, 44, 44);
+		sideMenuContainer.add(viewPanel);
+		viewPanel.setLayout(new BorderLayout(0, 0));
+		
+		viewIcon = new JLabel("");
+		viewIcon.setBackground(Color.decode("#4d94ff"));
+		viewIcon.setOpaque(true);
+		viewIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/view-32.png")));
+		viewIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		viewIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		viewPanel.add(viewIcon, BorderLayout.CENTER);
+		
+		downloadPanel = new JPanel();
+		downloadPanel.setToolTipText("Download Prescription");
+		downloadPanel.setOpaque(false);
+		downloadPanel.setBounds(189, 0, 44, 44);
+		sideMenuContainer.add(downloadPanel);
+		downloadPanel.setLayout(new BorderLayout(0, 0));
+		
+		downloadIcon = new JLabel("");
+		downloadIcon.setBackground(Color.decode("#4d94ff"));
+		downloadIcon.setOpaque(true);
+		downloadIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/download-32.png")));
+		downloadIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		downloadIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		downloadPanel.add(downloadIcon, BorderLayout.CENTER);
+		
+		savePanel = new JPanel();
+		savePanel.setToolTipText("Save Data");
+		savePanel.setOpaque(false);
+		savePanel.setBounds(245, 0, 44, 44);
+		sideMenuContainer.add(savePanel);
+		savePanel.setLayout(new BorderLayout(0, 0));
+		
+		saveIcon = new JLabel("");
+		saveIcon.setBackground(Color.decode("#4d94ff"));
+		saveIcon.setOpaque(true);
+		saveIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		saveIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		saveIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/save-32.png")));
+		savePanel.add(saveIcon, BorderLayout.CENTER);
+		
+		cancelPanel = new JPanel();
+		cancelPanel.setBounds(301, 0, 44, 44);
+		sideMenuContainer.add(cancelPanel);
+		cancelPanel.setLayout(new BorderLayout(0, 0));
+		
+		cancelIcon = new JLabel("");
+		cancelIcon.setOpaque(true);
+		cancelIcon.setToolTipText("Go Back");
+		cancelIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/com/emr/app/images/back-32.png")));
+		cancelIcon.setHorizontalTextPosition(SwingConstants.CENTER);
+		cancelIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		cancelPanel.add(cancelIcon, BorderLayout.CENTER);
+
 	}
 
 	private void initComponents() {
@@ -109,7 +255,7 @@ public class HomeScreen extends JFrame {
 		setBackground(Color.decode("#ffffff"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
-		setBounds(100, 100, 880, 500);
+		setBounds(100, 100, 950, 550);
 		setResizable(true);
 		// setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
@@ -470,6 +616,19 @@ public class HomeScreen extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				changeColor(Color.decode("#0d0d0d"), settingsBtn);
+			}
+		});
+		
+		cancelPanel.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeColor(Color.decode("#4d4d4d"), cancelPanel);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				changeColor(Color.decode("#0d0d0d"), cancelPanel);
 			}
 		});
 	}

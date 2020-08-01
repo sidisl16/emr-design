@@ -193,7 +193,7 @@ public class AddAppointmentPanel extends JPanel {
 		patientDetailsContainer.add(nameLbl);
 
 		nameTextField = new JTextField();
-		nameTextField.setBorder(new LineBorder(Color.GRAY));
+		nameTextField.setBorder(new LineBorder(Color.decode("#262626")));
 		nameTextField.setBounds(68, 45, 230, 30);
 		patientDetailsContainer.add(nameTextField);
 		nameTextField.setColumns(10);
