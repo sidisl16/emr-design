@@ -59,6 +59,11 @@ public class AppointmentPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public AppointmentPanel() {
+		initComponents();
+		initEvents();
+	}
+
+	private void initComponents() {
 		setBackground(Color.decode("#ffffff"));
 		setLayout(new BorderLayout(0, 0));
 
@@ -180,15 +185,12 @@ public class AppointmentPanel extends JPanel {
 				new Object[][] { { null, null, null, null, null, null, null },
 						{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null },
 						{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null }, },
-				new String[] { "Sl. No.", "Patient Name", "Patient Number", "Age", "Appointment Time", "Gender",
+				new String[] { "Sl. No.", "Patient Name", "Age", "Gender", "Patient Number", "Appointment Time",
 						"Action" }));
 		tableHeader = appointmentTable.getTableHeader();
 		tableHeader.setPreferredSize(new Dimension(100, 32));
 		appointmentTable.setRowHeight(32);
 		tableScrollPane.setViewportView(appointmentTable);
-
-		initEvents();
-
 	}
 
 	private void initEvents() {
