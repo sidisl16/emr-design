@@ -75,7 +75,6 @@ public class HomeScreen extends JFrame {
 			public void run() {
 				try {
 					HomeScreen frame = new HomeScreen();
-					frame.initEvents();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -89,11 +88,17 @@ public class HomeScreen extends JFrame {
 	 */
 	public HomeScreen() {
 		initComponents();
+		initEvents();
+
+		Router.INSTANCE.setLayeredPane(bodyLayeredPan);
+
 		appointmentPanel = new AppointmentPanel();
+		Router.INSTANCE.registerRoute(appointmentPanel);
 		bodyLayeredPan.add(appointmentPanel, BorderLayout.CENTER);
 
 		addPatientPanel = new AddAppointmentPanel();
-		bodyLayeredPan.add(addPatientPanel, "name_87666433998724");
+		Router.INSTANCE.registerRoute(addPatientPanel);
+		bodyLayeredPan.add(addPatientPanel, "AddAppointmentPanel");
 	}
 
 	private void initComponents() {

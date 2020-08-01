@@ -276,6 +276,11 @@ public class AddAppointmentPanel extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				changeColor(Color.decode("#4d94ff"), cancelPanel);
 			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Router.INSTANCE.route(AppointmentPanel.class);
+			}
 		});
 	}
 
