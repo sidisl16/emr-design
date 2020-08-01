@@ -5,9 +5,14 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class Circle extends JPanel {
 
@@ -34,10 +39,18 @@ public class Circle extends JPanel {
 	}
 
 	public static void main(String[] args) {
+		UtilDateModel model = new UtilDateModel();
+		Properties p = new Properties();
+		p.put("text.today", "Today");
+		p.put("text.month", "Month");
+		p.put("text.year", "Year");
+		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+		
 		JFrame frame = new JFrame();
 		Circle panel = new Circle('V');
 		frame.setSize(100, 100);
-		frame.add(panel);
+		frame.add(datePicker);
 		frame.setVisible(true);
 	}
 
