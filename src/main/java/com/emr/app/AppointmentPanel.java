@@ -139,7 +139,6 @@ public class AppointmentPanel extends JPanel {
 		searchTextField.setFont(new Font("Open Sans", Font.PLAIN, 14));
 		searchTextField.setSelectedTextColor(Color.decode("#4d94ff"));
 		searchTextField.setSelectionColor(Color.decode("#ffffff"));
-		searchTextField.setBorder(null);
 		searchTextField.setBounds(12, 8, 210, 32);
 		searchTextField.setBorder(BorderFactory.createCompoundBorder(searchTextField.getBorder(),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
