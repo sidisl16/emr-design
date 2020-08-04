@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.stream.IntStream;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField.AbstractFormatter;
@@ -36,7 +37,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.google.common.base.Strings;
-import javax.swing.DefaultComboBoxModel;
 
 public class HomeScreen extends JFrame {
 
@@ -143,6 +143,31 @@ public class HomeScreen extends JFrame {
 	private JTable examinationTable;
 	private JComboBox medicineComboBox;
 	private DefaultComboBoxModel defaultComboBoxModel;
+	private JScrollPane examinationTableScrollPane;
+	private DefaultTableModel examinationTableModel;
+	private JLabel legendLbl;
+	private CheckBoxTableDataModel medicineTableDataModel;
+	private JScrollPane medicineTableScrollPane;
+	private JPanel patientAdvicePanel;
+	private JLabel bmiLbl;
+	private JLabel weightKgLbl;
+	private JLabel weightLbl;
+	private JLabel heightCmLbl;
+	private JLabel heightLbl;
+	private JLabel minLbl;
+	private JLabel pulseRateLbl;
+	private JPanel vitalsPanel;
+	private JTextArea diagnosisTextArea;
+	private JPanel diagnosisPanel;
+	private JPanel chiefComplaintsPanel;
+	private JComboBox genderComboBox;
+	private JLabel emailLbl;
+	private JTextArea addressTextArea;
+	private JLabel addressLbl;
+	private JLabel ageLbl;
+	private JLabel contactLbl;
+	private JLabel genderLbl;
+	private JPanel patientProfilePanel2;
 
 	/**
 	 * Launch the application.
@@ -322,10 +347,10 @@ public class HomeScreen extends JFrame {
 		patientTabbedPane.setBackground(Color.decode("#ffffff"));
 		patientTabbedPane.setFont(new Font("Open Sans", Font.BOLD, 12));
 
-		JPanel patientProfilePanel = new JPanel();
-		patientProfilePanel.setBackground(Color.decode("#ffffff"));
-		patientTabbedPane.addTab("Patient Profile", patientProfilePanel);
-		patientProfilePanel.setLayout(null);
+		patientProfilePanel2 = new JPanel();
+		patientProfilePanel2.setBackground(Color.decode("#ffffff"));
+		patientTabbedPane.addTab("Patient Profile", patientProfilePanel2);
+		patientProfilePanel2.setLayout(null);
 
 		patientDetailsPanel = new JPanel();
 		patientDetailsPanel.setFont(new Font("Open Sans", Font.PLAIN, 12));
@@ -333,7 +358,7 @@ public class HomeScreen extends JFrame {
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		patientDetailsPanel.setOpaque(false);
 		patientDetailsPanel.setBounds(12, 12, 600, 250);
-		patientProfilePanel.add(patientDetailsPanel);
+		patientProfilePanel2.add(patientDetailsPanel);
 		patientDetailsPanel.setLayout(null);
 
 		patientNameLbl = new JLabel("Name");
@@ -347,11 +372,11 @@ public class HomeScreen extends JFrame {
 		patientDetailsPanel.add(patientNameTextField);
 		patientNameTextField.setColumns(10);
 
-		JLabel genderLbl = new JLabel("Gender");
+		genderLbl = new JLabel("Gender");
 		genderLbl.setBounds(12, 93, 61, 23);
 		patientDetailsPanel.add(genderLbl);
 
-		JLabel contactLbl = new JLabel("Contact No.");
+		contactLbl = new JLabel("Contact No.");
 		contactLbl.setBounds(316, 91, 74, 23);
 		patientDetailsPanel.add(contactLbl);
 
@@ -361,7 +386,7 @@ public class HomeScreen extends JFrame {
 		contactTextField.setBounds(391, 89, 191, 27);
 		patientDetailsPanel.add(contactTextField);
 
-		JLabel ageLbl = new JLabel("Age");
+		ageLbl = new JLabel("Age");
 		ageLbl.setBounds(316, 37, 61, 23);
 		patientDetailsPanel.add(ageLbl);
 
@@ -372,16 +397,16 @@ public class HomeScreen extends JFrame {
 		ageTextField.setBounds(391, 33, 191, 27);
 		patientDetailsPanel.add(ageTextField);
 
-		JLabel addressLbl = new JLabel("Address");
+		addressLbl = new JLabel("Address");
 		addressLbl.setBounds(12, 145, 61, 23);
 		patientDetailsPanel.add(addressLbl);
 
-		JTextArea addressTextArea = new JTextArea();
+		addressTextArea = new JTextArea();
 		addressTextArea.setBorder(new LineBorder(Color.decode("#262626")));
 		addressTextArea.setBounds(74, 148, 191, 90);
 		patientDetailsPanel.add(addressTextArea);
 
-		JLabel emailLbl = new JLabel("Email");
+		emailLbl = new JLabel("Email");
 		emailLbl.setBounds(316, 147, 74, 23);
 		patientDetailsPanel.add(emailLbl);
 
@@ -391,17 +416,17 @@ public class HomeScreen extends JFrame {
 		emailTextField.setBounds(391, 145, 191, 27);
 		patientDetailsPanel.add(emailTextField);
 
-		JComboBox genderComboBox = new JComboBox();
+		genderComboBox = new JComboBox();
 		genderComboBox.setBorder(new LineBorder(Color.decode("#262626")));
 		genderComboBox.setBounds(74, 91, 191, 26);
 		patientDetailsPanel.add(genderComboBox);
 
-		JPanel chiefComplaintsPanel = new JPanel();
+		chiefComplaintsPanel = new JPanel();
 		chiefComplaintsPanel.setBorder(new TitledBorder(new LineBorder(Color.decode("#262626")), "Chief Complaints",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		chiefComplaintsPanel.setBackground(Color.decode("#ffffff"));
 		chiefComplaintsPanel.setBounds(12, 289, 600, 250);
-		patientProfilePanel.add(chiefComplaintsPanel);
+		patientProfilePanel2.add(chiefComplaintsPanel);
 		chiefComplaintsPanel.setLayout(new BorderLayout(0, 0));
 
 		ccTextPanel = new JPanel();
@@ -446,29 +471,29 @@ public class HomeScreen extends JFrame {
 		ccTableDataModel.addColumn("Chief Complaints");
 		ccTableScrollPane.setViewportView(ccTable);
 
-		JPanel diagnosisPanel = new JPanel();
+		diagnosisPanel = new JPanel();
 		diagnosisPanel.setBorder(new TitledBorder(new LineBorder(Color.decode("#262626")), "Diagnosis",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		diagnosisPanel.setBackground(Color.decode("#ffffff"));
 		diagnosisPanel.setBounds(650, 289, 600, 250);
-		patientProfilePanel.add(diagnosisPanel);
+		patientProfilePanel2.add(diagnosisPanel);
 		diagnosisPanel.setLayout(null);
 
-		JTextArea diagnosisTextArea = new JTextArea();
+		diagnosisTextArea = new JTextArea();
 		diagnosisTextArea.setWrapStyleWord(true);
 		diagnosisTextArea.setLineWrap(true);
 		diagnosisTextArea.setBounds(12, 24, 576, 214);
 		diagnosisPanel.add(diagnosisTextArea);
 
-		JPanel vitalsPanel = new JPanel();
+		vitalsPanel = new JPanel();
 		vitalsPanel.setBackground(Color.decode("#ffffff"));
 		vitalsPanel.setBorder(new TitledBorder(new LineBorder(Color.decode("#262626")), "Vitals", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 		vitalsPanel.setBounds(650, 12, 600, 250);
-		patientProfilePanel.add(vitalsPanel);
+		patientProfilePanel2.add(vitalsPanel);
 		vitalsPanel.setLayout(null);
 
-		JLabel pulseRateLbl = new JLabel("Pulse rate");
+		pulseRateLbl = new JLabel("Pulse rate");
 		pulseRateLbl.setBounds(32, 34, 61, 23);
 		vitalsPanel.add(pulseRateLbl);
 
@@ -479,7 +504,7 @@ public class HomeScreen extends JFrame {
 		pulseRatetextField.setBounds(111, 32, 95, 27);
 		vitalsPanel.add(pulseRatetextField);
 
-		JLabel minLbl = new JLabel("/ min");
+		minLbl = new JLabel("/ min");
 		minLbl.setBounds(211, 34, 61, 23);
 		vitalsPanel.add(minLbl);
 
@@ -490,11 +515,11 @@ public class HomeScreen extends JFrame {
 		heightTextField.setBounds(399, 32, 95, 27);
 		vitalsPanel.add(heightTextField);
 
-		JLabel heightLbl = new JLabel("Height");
+		heightLbl = new JLabel("Height");
 		heightLbl.setBounds(320, 34, 61, 23);
 		vitalsPanel.add(heightLbl);
 
-		JLabel heightCmLbl = new JLabel("cm");
+		heightCmLbl = new JLabel("cm");
 		heightCmLbl.setBounds(499, 34, 61, 23);
 		vitalsPanel.add(heightCmLbl);
 
@@ -505,11 +530,11 @@ public class HomeScreen extends JFrame {
 		weightTextField.setBounds(399, 81, 95, 27);
 		vitalsPanel.add(weightTextField);
 
-		JLabel weightLbl = new JLabel("Weight");
+		weightLbl = new JLabel("Weight");
 		weightLbl.setBounds(320, 83, 61, 23);
 		vitalsPanel.add(weightLbl);
 
-		JLabel weightKgLbl = new JLabel("Kg");
+		weightKgLbl = new JLabel("Kg");
 		weightKgLbl.setBounds(499, 83, 61, 23);
 		vitalsPanel.add(weightKgLbl);
 
@@ -520,7 +545,7 @@ public class HomeScreen extends JFrame {
 		bmiTextField.setBounds(399, 125, 95, 27);
 		vitalsPanel.add(bmiTextField);
 
-		JLabel bmiLbl = new JLabel("BMI");
+		bmiLbl = new JLabel("BMI");
 		bmiLbl.setBounds(320, 127, 61, 23);
 		vitalsPanel.add(bmiLbl);
 
@@ -569,7 +594,7 @@ public class HomeScreen extends JFrame {
 		mmhgSysLbl_1.setBounds(211, 127, 61, 23);
 		vitalsPanel.add(mmhgSysLbl_1);
 
-		JPanel patientAdvicePanel = new JPanel();
+		patientAdvicePanel = new JPanel();
 		patientAdvicePanel.setBackground(Color.decode("#ffffff"));
 		patientTabbedPane.addTab("Advice", patientAdvicePanel);
 		patientAdvicePanel.setLayout(null);
@@ -586,11 +611,11 @@ public class HomeScreen extends JFrame {
 		searchMedicineLbl.setBounds(12, 27, 97, 22);
 		medicineAdvicePanel.add(searchMedicineLbl);
 
-		JScrollPane medicineTableScrollPane = new JScrollPane();
+		medicineTableScrollPane = new JScrollPane();
 		medicineTableScrollPane.setBounds(519, 23, 657, 221);
 		medicineAdvicePanel.add(medicineTableScrollPane);
 
-		CheckBoxTableDataModel medicineTableDataModel = new CheckBoxTableDataModel();
+		medicineTableDataModel = new CheckBoxTableDataModel();
 		medicineTableDataModel.addColumn("Sl No.");
 		medicineTableDataModel.addColumn("Medicine");
 		medicineTableDataModel.addColumn("Days");
@@ -602,26 +627,23 @@ public class HomeScreen extends JFrame {
 		medicineTableDataModel.addColumn("BD");
 		medicineTableDataModel.addColumn("AD");
 
-		medicineTableDataModel.addRow(new Object[] { true, false, true, true });
-
 		medicinetable = new JTable(medicineTableDataModel);
 		medicinetable.setRowHeight(25);
 		medicineTableScrollPane.setViewportView(medicinetable);
 
-		JLabel legendLbl = new JLabel(
+		legendLbl = new JLabel(
 				"BF - Before breakfast, AF - After breakfast, BL - Before lunch, AL - After lunch, EV - Evening, BD - Before dinner, AD - After dinner");
 		legendLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		legendLbl.setFont(new Font("Open Sans", Font.PLAIN, 12));
 		legendLbl.setBounds(472, 250, 727, 17);
 		medicineAdvicePanel.add(legendLbl);
-		
+
 		medicineComboBox = new JComboBox();
 		defaultComboBoxModel = new DefaultComboBoxModel();
 		medicineComboBox.setEditable(true);
 		medicineComboBox.setModel(defaultComboBoxModel);
 		medicineComboBox.setFont(new Font("Open Sans", Font.BOLD, 12));
 		medicineComboBox.setBounds(111, 25, 382, 26);
-		
 		medicineAdvicePanel.add(medicineComboBox);
 
 		testAdvicepanel = new JPanel();
@@ -641,16 +663,16 @@ public class HomeScreen extends JFrame {
 		searchExaminationtxtField.setBorder(new LineBorder(Color.DARK_GRAY));
 		searchExaminationtxtField.setBounds(135, 22, 370, 32);
 		testAdvicepanel.add(searchExaminationtxtField);
-		
-		JScrollPane examinationTableScrollPane = new JScrollPane();
+
+		examinationTableScrollPane = new JScrollPane();
 		examinationTableScrollPane.setBounds(517, 22, 657, 221);
 		testAdvicepanel.add(examinationTableScrollPane);
-		
+
 		examinationTable = new JTable();
-		DefaultTableModel examinationTableModel = (DefaultTableModel) examinationTable.getModel();
+		examinationTableModel = (DefaultTableModel) examinationTable.getModel();
 		examinationTableModel.addColumn("Sl No.");
 		examinationTableModel.addColumn("Examination");
-		
+
 		examinationTableScrollPane.setViewportView(examinationTable);
 
 		patientContentContainer.add(patientTabbedPane, BorderLayout.CENTER);
@@ -1170,6 +1192,50 @@ public class HomeScreen extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				IntStream.range(0, ccTableDataModel.getRowCount()).forEach(index -> ccTableDataModel.removeRow(0));
+			}
+		});
+
+		medicineComboBox.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					medicineTableDataModel.addRow(new Object[] { medicineTableDataModel.getRowCount() + 1,
+							medicineComboBox.getSelectedItem().toString() });
+				}
+				
+				String str = medicineComboBox.getEditor().getItem().toString();
+				System.out.println(str);
+
+				if (str.length() > 3) {
+					defaultComboBoxModel.removeAllElements();
+					medicineComboBox.showPopup();
+					defaultComboBoxModel.addElement(str);
+					defaultComboBoxModel.addElement("saksjas");
+					defaultComboBoxModel.addElement("sasas");
+					defaultComboBoxModel.addElement("swewew");
+				}
+			}
+		});
+		medicinetable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+					int selectedRows[] = medicinetable.getSelectedRows();
+					int count = 0;
+					for (int i = 0; i < selectedRows.length; i++) {
+						medicineTableDataModel.removeRow(selectedRows[i] - count);
+						count++;
+					}
+
+					int rows = medicineTableDataModel.getRowCount();
+					for (int i = 0; i < rows; i++) {
+						medicineTableDataModel.setValueAt(i + 1, i, 0);
+					}
+
+				}
 			}
 		});
 
