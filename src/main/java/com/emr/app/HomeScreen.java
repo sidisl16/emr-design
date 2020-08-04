@@ -19,7 +19,6 @@ import java.util.Calendar;
 import java.util.stream.IntStream;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JFrame;
@@ -37,6 +36,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.google.common.base.Strings;
+import javax.swing.DefaultComboBoxModel;
 
 public class HomeScreen extends JFrame {
 
@@ -134,6 +134,15 @@ public class HomeScreen extends JFrame {
 	private DefaultTableModel ccTableDataModel;
 	private JPanel ccClearTabelPanel;
 	private JLabel ccClearAllLbl;
+	private JPanel medicineAdvicePanel;
+	private JPanel testAdvicepanel;
+	private JLabel searchMedicineLbl;
+	private JLabel searchExaminationLbl;
+	private JTextField searchExaminationtxtField;
+	private JTable medicinetable;
+	private JTable examinationTable;
+	private JComboBox medicineComboBox;
+	private DefaultComboBoxModel defaultComboBoxModel;
 
 	/**
 	 * Launch the application.
@@ -563,6 +572,86 @@ public class HomeScreen extends JFrame {
 		JPanel patientAdvicePanel = new JPanel();
 		patientAdvicePanel.setBackground(Color.decode("#ffffff"));
 		patientTabbedPane.addTab("Advice", patientAdvicePanel);
+		patientAdvicePanel.setLayout(null);
+
+		medicineAdvicePanel = new JPanel();
+		medicineAdvicePanel.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Medicine Advice",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		medicineAdvicePanel.setBackground(Color.WHITE);
+		medicineAdvicePanel.setBounds(43, 12, 1199, 279);
+		patientAdvicePanel.add(medicineAdvicePanel);
+		medicineAdvicePanel.setLayout(null);
+
+		searchMedicineLbl = new JLabel("Search Medicine");
+		searchMedicineLbl.setBounds(12, 27, 97, 22);
+		medicineAdvicePanel.add(searchMedicineLbl);
+
+		JScrollPane medicineTableScrollPane = new JScrollPane();
+		medicineTableScrollPane.setBounds(519, 23, 657, 221);
+		medicineAdvicePanel.add(medicineTableScrollPane);
+
+		CheckBoxTableDataModel medicineTableDataModel = new CheckBoxTableDataModel();
+		medicineTableDataModel.addColumn("Sl No.");
+		medicineTableDataModel.addColumn("Medicine");
+		medicineTableDataModel.addColumn("Days");
+		medicineTableDataModel.addColumn("BF");
+		medicineTableDataModel.addColumn("AF");
+		medicineTableDataModel.addColumn("BL");
+		medicineTableDataModel.addColumn("AL");
+		medicineTableDataModel.addColumn("EV");
+		medicineTableDataModel.addColumn("BD");
+		medicineTableDataModel.addColumn("AD");
+
+		medicineTableDataModel.addRow(new Object[] { true, false, true, true });
+
+		medicinetable = new JTable(medicineTableDataModel);
+		medicinetable.setRowHeight(25);
+		medicineTableScrollPane.setViewportView(medicinetable);
+
+		JLabel legendLbl = new JLabel(
+				"BF - Before breakfast, AF - After breakfast, BL - Before lunch, AL - After lunch, EV - Evening, BD - Before dinner, AD - After dinner");
+		legendLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		legendLbl.setFont(new Font("Open Sans", Font.PLAIN, 12));
+		legendLbl.setBounds(472, 250, 727, 17);
+		medicineAdvicePanel.add(legendLbl);
+		
+		medicineComboBox = new JComboBox();
+		defaultComboBoxModel = new DefaultComboBoxModel();
+		medicineComboBox.setEditable(true);
+		medicineComboBox.setModel(defaultComboBoxModel);
+		medicineComboBox.setFont(new Font("Open Sans", Font.BOLD, 12));
+		medicineComboBox.setBounds(111, 25, 382, 26);
+		
+		medicineAdvicePanel.add(medicineComboBox);
+
+		testAdvicepanel = new JPanel();
+		testAdvicepanel.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Examination",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		testAdvicepanel.setBackground(Color.WHITE);
+		testAdvicepanel.setBounds(43, 291, 1199, 249);
+		patientAdvicePanel.add(testAdvicepanel);
+		testAdvicepanel.setLayout(null);
+
+		searchExaminationLbl = new JLabel("Search Examination");
+		searchExaminationLbl.setBounds(12, 26, 116, 22);
+		testAdvicepanel.add(searchExaminationLbl);
+
+		searchExaminationtxtField = new JTextField();
+		searchExaminationtxtField.setColumns(10);
+		searchExaminationtxtField.setBorder(new LineBorder(Color.DARK_GRAY));
+		searchExaminationtxtField.setBounds(135, 22, 370, 32);
+		testAdvicepanel.add(searchExaminationtxtField);
+		
+		JScrollPane examinationTableScrollPane = new JScrollPane();
+		examinationTableScrollPane.setBounds(517, 22, 657, 221);
+		testAdvicepanel.add(examinationTableScrollPane);
+		
+		examinationTable = new JTable();
+		DefaultTableModel examinationTableModel = (DefaultTableModel) examinationTable.getModel();
+		examinationTableModel.addColumn("Sl No.");
+		examinationTableModel.addColumn("Examination");
+		
+		examinationTableScrollPane.setViewportView(examinationTable);
 
 		patientContentContainer.add(patientTabbedPane, BorderLayout.CENTER);
 	}
@@ -1056,6 +1145,12 @@ public class HomeScreen extends JFrame {
 						ccTableDataModel.removeRow(selectedRows[i] - count);
 						count++;
 					}
+
+					int rows = ccTableDataModel.getRowCount();
+					for (int i = 0; i < rows; i++) {
+						ccTableDataModel.setValueAt(i + 1, i, 0);
+					}
+
 				}
 			}
 		});
