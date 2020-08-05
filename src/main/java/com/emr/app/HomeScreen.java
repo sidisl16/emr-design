@@ -136,13 +136,10 @@ public class HomeScreen extends JFrame {
 	private JLabel ccClearAllLbl;
 	private JPanel medicineAdvicePanel;
 	private JPanel testAdvicepanel;
-	private JLabel searchMedicineLbl;
-	private JLabel searchExaminationLbl;
-	private JTextField searchExaminationtxtField;
 	private JTable medicinetable;
 	private JTable examinationTable;
-	private JComboBox medicineComboBox;
-	private DefaultComboBoxModel defaultComboBoxModel;
+	private JComboBox<String> medicineComboBox;
+	private DefaultComboBoxModel<String> defaultComboBoxModel;
 	private JScrollPane examinationTableScrollPane;
 	private DefaultTableModel examinationTableModel;
 	private JLabel legendLbl;
@@ -168,6 +165,8 @@ public class HomeScreen extends JFrame {
 	private JLabel contactLbl;
 	private JLabel genderLbl;
 	private JPanel patientProfilePanel2;
+	private AutoSuggestionComponent medicineAutoSuggestion;
+	private AutoSuggestionComponent examinationAutoSuggestion;
 
 	/**
 	 * Launch the application.
@@ -191,19 +190,17 @@ public class HomeScreen extends JFrame {
 	 */
 	public HomeScreen() {
 		initComponents();
-		/**
-		 * Router.INSTANCE.setLayeredPane(bodyLayeredPan);
-		 * 
-		 * appointmentPanel = new AppointmentPanel();
-		 * Router.INSTANCE.registerRoute(appointmentPanel);
-		 * bodyLayeredPan.add(appointmentPanel, BorderLayout.CENTER);
-		 * 
-		 * addPatientPanel = new AddAppointmentPanel();
-		 * Router.INSTANCE.registerRoute(addPatientPanel);
-		 * bodyLayeredPan.add(addPatientPanel, BorderLayout.CENTER);
-		 **/
+/**		
+		Router.INSTANCE.setLayeredPane(bodyLayeredPan);
+		appointmentPanel = new AppointmentPanel();
+		Router.INSTANCE.registerRoute(appointmentPanel);
+		bodyLayeredPan.add(appointmentPanel, BorderLayout.CENTER);
+		addPatientPanel = new AddAppointmentPanel();
+		Router.INSTANCE.registerRoute(addPatientPanel);
+		bodyLayeredPan.add(addPatientPanel, BorderLayout.CENTER);
+**/		
 		patientPanel = new JPanel();
-		// Router.INSTANCE.registerRoute(patientPanel);
+		Router.INSTANCE.registerRoute(patientPanel);
 		bodyLayeredPan.add(patientPanel, BorderLayout.CENTER);
 
 		patientPanel.setBackground(Color.decode("#ffffff"));
@@ -607,10 +604,6 @@ public class HomeScreen extends JFrame {
 		patientAdvicePanel.add(medicineAdvicePanel);
 		medicineAdvicePanel.setLayout(null);
 
-		searchMedicineLbl = new JLabel("Search Medicine");
-		searchMedicineLbl.setBounds(12, 27, 97, 22);
-		medicineAdvicePanel.add(searchMedicineLbl);
-
 		medicineTableScrollPane = new JScrollPane();
 		medicineTableScrollPane.setBounds(519, 23, 657, 221);
 		medicineAdvicePanel.add(medicineTableScrollPane);
@@ -619,6 +612,7 @@ public class HomeScreen extends JFrame {
 		medicineTableDataModel.addColumn("Sl No.");
 		medicineTableDataModel.addColumn("Medicine");
 		medicineTableDataModel.addColumn("Days");
+		medicineTableDataModel.addColumn("Frequency");
 		medicineTableDataModel.addColumn("BF");
 		medicineTableDataModel.addColumn("AF");
 		medicineTableDataModel.addColumn("BL");
@@ -638,13 +632,17 @@ public class HomeScreen extends JFrame {
 		legendLbl.setBounds(472, 250, 727, 17);
 		medicineAdvicePanel.add(legendLbl);
 
-		medicineComboBox = new JComboBox();
-		defaultComboBoxModel = new DefaultComboBoxModel();
+		medicineComboBox = new JComboBox<>();
 		medicineComboBox.setEditable(true);
-		medicineComboBox.setModel(defaultComboBoxModel);
 		medicineComboBox.setFont(new Font("Open Sans", Font.BOLD, 12));
-		medicineComboBox.setBounds(111, 25, 382, 26);
-		medicineAdvicePanel.add(medicineComboBox);
+		medicineComboBox.setBounds(111, 25, 382, 32);
+		medicineComboBox.setSelectedItem(null);
+
+		medicineAutoSuggestion = new AutoSuggestionComponent();
+		medicineAutoSuggestion.setTable(medicineTableDataModel);
+		medicineAutoSuggestion.setBounds(12, 25, 495, 219);
+
+		medicineAdvicePanel.add(medicineAutoSuggestion);
 
 		testAdvicepanel = new JPanel();
 		testAdvicepanel.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Examination",
@@ -654,26 +652,22 @@ public class HomeScreen extends JFrame {
 		patientAdvicePanel.add(testAdvicepanel);
 		testAdvicepanel.setLayout(null);
 
-		searchExaminationLbl = new JLabel("Search Examination");
-		searchExaminationLbl.setBounds(12, 26, 116, 22);
-		testAdvicepanel.add(searchExaminationLbl);
-
-		searchExaminationtxtField = new JTextField();
-		searchExaminationtxtField.setColumns(10);
-		searchExaminationtxtField.setBorder(new LineBorder(Color.DARK_GRAY));
-		searchExaminationtxtField.setBounds(135, 22, 370, 32);
-		testAdvicepanel.add(searchExaminationtxtField);
-
 		examinationTableScrollPane = new JScrollPane();
 		examinationTableScrollPane.setBounds(517, 22, 657, 221);
 		testAdvicepanel.add(examinationTableScrollPane);
 
 		examinationTable = new JTable();
+		examinationTable.setRowHeight(25);
 		examinationTableModel = (DefaultTableModel) examinationTable.getModel();
 		examinationTableModel.addColumn("Sl No.");
 		examinationTableModel.addColumn("Examination");
 
 		examinationTableScrollPane.setViewportView(examinationTable);
+
+		examinationAutoSuggestion = new AutoSuggestionComponent();
+		examinationAutoSuggestion.setBounds(10, 22, 495, 219);
+		examinationAutoSuggestion.setTable(examinationTableModel);
+		testAdvicepanel.add(examinationAutoSuggestion);
 
 		patientContentContainer.add(patientTabbedPane, BorderLayout.CENTER);
 	}
@@ -1199,26 +1193,28 @@ public class HomeScreen extends JFrame {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
-				
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+				String str = medicineComboBox.getEditor().getItem().toString();
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !Strings.isNullOrEmpty(str)) {
 					medicineTableDataModel.addRow(new Object[] { medicineTableDataModel.getRowCount() + 1,
 							medicineComboBox.getSelectedItem().toString() });
 				}
-				
-				String str = medicineComboBox.getEditor().getItem().toString();
+
 				System.out.println(str);
 
 				if (str.length() > 3) {
-					defaultComboBoxModel.removeAllElements();
-					medicineComboBox.showPopup();
-					defaultComboBoxModel.addElement(str);
-					defaultComboBoxModel.addElement("saksjas");
-					defaultComboBoxModel.addElement("sasas");
-					defaultComboBoxModel.addElement("swewew");
+					medicineComboBox.removeAllItems();
+
+					medicineComboBox.addItem("C");
+					medicineComboBox.addItem("JAVA");
+					medicineComboBox.addItem("C++");
+					medicineComboBox.addItem("ABC");
+
 				}
 			}
 		});
+
 		medicinetable.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -1233,6 +1229,26 @@ public class HomeScreen extends JFrame {
 					int rows = medicineTableDataModel.getRowCount();
 					for (int i = 0; i < rows; i++) {
 						medicineTableDataModel.setValueAt(i + 1, i, 0);
+					}
+
+				}
+			}
+		});
+		
+		examinationTable.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+					int selectedRows[] = examinationTable.getSelectedRows();
+					int count = 0;
+					for (int i = 0; i < selectedRows.length; i++) {
+						examinationTableModel.removeRow(selectedRows[i] - count);
+						count++;
+					}
+
+					int rows = examinationTableModel.getRowCount();
+					for (int i = 0; i < rows; i++) {
+						examinationTableModel.setValueAt(i + 1, i, 0);
 					}
 
 				}

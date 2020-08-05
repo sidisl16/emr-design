@@ -11,7 +11,7 @@ public class CheckBoxTableDataModel extends DefaultTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex > 2) {
+		if (columnIndex > 3) {
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
