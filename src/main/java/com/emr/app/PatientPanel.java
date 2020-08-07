@@ -15,19 +15,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.google.common.base.Strings;
 
-public class PatientPanel extends JPanel {
+public class PatientPanel extends RoutingPanel {
 
 	/**
 	 * 
@@ -112,6 +114,7 @@ public class PatientPanel extends JPanel {
 	private JPanel patientProfilePanel2;
 	private AutoSuggestionComponent medicineAutoSuggestion;
 	private AutoSuggestionComponent examinationAutoSuggestion;
+	private JProgressBar progressBar;
 
 	/**
 	 * Create the panel.
@@ -119,6 +122,10 @@ public class PatientPanel extends JPanel {
 	public PatientPanel() {
 		initComponents();
 		initEvents();
+	}
+
+	public void setProgressDialog(JProgressBar progressBar) {
+		this.progressBar = progressBar;
 	}
 
 	private void initComponents() {
@@ -750,6 +757,11 @@ public class PatientPanel extends JPanel {
 
 	private void changeColor(Color color, Component component) {
 		component.setBackground(color);
+	}
+
+	@Override
+	public void execute() {
+		SwingUtilities.invokeLater(() -> progressBar.setValue(0));
 	}
 
 }

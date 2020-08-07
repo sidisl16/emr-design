@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -67,9 +68,10 @@ public class HomeScreen extends JFrame {
 	private JPanel subMenuContainer;
 	private JLabel settingsIcon;
 	private JLayeredPane bodyLayeredPan;
-	private JPanel appointmentPanel;
-	private JPanel addPatientPanel;
+	private AppointmentPanel appointmentPanel;
+	private RoutingPanel addPatientPanel;
 	private PatientPanel patientPanel;
+	private JProgressBar progressBar;
 
 	/**
 	 * Launch the application.
@@ -95,12 +97,14 @@ public class HomeScreen extends JFrame {
 		initComponents();
 		Router.INSTANCE.setLayeredPane(bodyLayeredPan);
 		appointmentPanel = new AppointmentPanel();
+		appointmentPanel.setProgressDialog(progressBar);
 		Router.INSTANCE.registerRoute(appointmentPanel);
 		bodyLayeredPan.add(appointmentPanel, BorderLayout.CENTER);
 		addPatientPanel = new AddAppointmentPanel();
 		Router.INSTANCE.registerRoute(addPatientPanel);
 		bodyLayeredPan.add(addPatientPanel, BorderLayout.CENTER);
 		patientPanel = new PatientPanel();
+		patientPanel.setProgressDialog(progressBar);
 		Router.INSTANCE.registerRoute(patientPanel);
 		bodyLayeredPan.add(patientPanel, BorderLayout.CENTER);
 	}
@@ -113,7 +117,6 @@ public class HomeScreen extends JFrame {
 		setBackground(Color.decode("#ffffff"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
-
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize((int) screenSize.getWidth(), (int) screenSize.getHeight());
 		// setBounds(100, 100, 950, 550);
@@ -174,8 +177,7 @@ public class HomeScreen extends JFrame {
 		minBtn.setBounds(0, 0, 35, 30);
 		iconmaxmizeClose.add(minBtn);
 		minBtn.setLayout(new BorderLayout(0, 0));
-
-		minIcon = new JLabel("");
+		minIcon = new JLabel();
 		minIcon.setIcon(new ImageIcon(HomeScreen.class.getResource("/icons/min-20.png")));
 		minIcon.setHorizontalTextPosition(SwingConstants.CENTER);
 		minIcon.setHorizontalAlignment(SwingConstants.CENTER);
@@ -203,6 +205,15 @@ public class HomeScreen extends JFrame {
 		midTitle.setForeground(Color.decode("#ffffff"));
 		midTitle.setFont(new Font("Open Sans", Font.BOLD, 12));
 		midTitlePanel.add(midTitle, BorderLayout.CENTER);
+
+		progressBar = new JProgressBar();
+		progressBar.setPreferredSize(new Dimension(148, 3));
+		progressBar.setForeground(Color.ORANGE);
+		progressBar.setBorderPainted(false);
+		progressBar.setBorder(null);
+		progressBar.setBackground(Color.decode("#262626"));
+		progressBar.setValue(0);
+		midTitlePanel.add(progressBar, BorderLayout.SOUTH);
 
 		sideMenuBar = new JPanel();
 		sideMenuBar.setPreferredSize(new Dimension(80, 10));

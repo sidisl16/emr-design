@@ -25,9 +25,9 @@ import javax.swing.border.TitledBorder;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DateTimePicker;
 
-public class AddAppointmentPanel extends JPanel {
+public class AddAppointmentPanel extends RoutingPanel {
 
-	private JPanel addPatientPanel;
+	private static final long serialVersionUID = 1L;
 	private JPanel appointmentHeadingPanel;
 	private JPanel appointmentHeadingTextContainer;
 	private JLabel appointmentTextLbl;
@@ -51,14 +51,17 @@ public class AddAppointmentPanel extends JPanel {
 	private JTextField ageTextField;
 	private DatePickerSettings settings;
 	private DateTimePicker dateTimePicker;
-	private JComboBox assignDropdown;
+	private JComboBox<String> assignDropdown;
 	private JLabel nameLbl;
 	private JLabel ageLbl;
 	private JLabel genderLbl;
 	private JLabel contactLbl;
 	private JLabel addressLbl;
 	private JTextArea addressTextArea;
-	private JComboBox genderDropdown;
+	private JComboBox<String> genderDropdown;
+	private JPanel attendNowBtn;
+	private JLabel orTextLbl;
+	private JLabel attendBtnLbl;
 
 	/**
 	 * Create the panel.
@@ -111,7 +114,7 @@ public class AddAppointmentPanel extends JPanel {
 		savePanel.add(saveIcon, BorderLayout.CENTER);
 
 		cancelPanel = new JPanel();
-		cancelPanel.setToolTipText("Add new Appointment");
+		cancelPanel.setToolTipText("Go Back");
 		cancelPanel.setBackground(Color.decode("#4d94ff"));
 		cancelPanel.setBounds(57, 0, 53, 48);
 		saveCancelAppointmentContainer.add(cancelPanel);
@@ -173,12 +176,31 @@ public class AddAppointmentPanel extends JPanel {
 
 		appointmentScheduleContainer.add(dateTimePicker);
 
-		assignDropdown = new JComboBox();
+		assignDropdown = new JComboBox<>();
 		assignDropdown.setBorder(new LineBorder(Color.decode("#262626")));
 		assignDropdown.setBackground(Color.decode("#ffffff"));
 		assignDropdown.setFont(new Font("Open Sans", Font.BOLD, 12));
 		assignDropdown.setBounds(66, 40, 231, 26);
 		appointmentScheduleContainer.add(assignDropdown);
+
+		attendNowBtn = new JPanel();
+		attendNowBtn.setBackground(Color.decode("#4d94ff"));
+		attendNowBtn.setBounds(716, 41, 94, 26);
+		appointmentScheduleContainer.add(attendNowBtn);
+		attendNowBtn.setLayout(new BorderLayout(0, 0));
+
+		attendBtnLbl = new JLabel("Attend now");
+		attendBtnLbl.setBorder(new LineBorder(Color.decode("#262626")));
+		attendBtnLbl.setForeground(Color.decode("#ffffff"));
+		attendBtnLbl.setFont(new Font("Open Sans", Font.BOLD, 12));
+		attendBtnLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		attendNowBtn.add(attendBtnLbl, BorderLayout.CENTER);
+
+		orTextLbl = new JLabel("or");
+		orTextLbl.setFont(new Font("Open Sans", Font.BOLD, 12));
+		orTextLbl.setForeground(Color.decode("#262626"));
+		orTextLbl.setBounds(693, 45, 21, 17);
+		appointmentScheduleContainer.add(orTextLbl);
 
 		patientDetailsContainer = new JPanel();
 		patientDetailsContainer.setBackground(Color.decode("#ffffff"));
@@ -243,7 +265,11 @@ public class AddAppointmentPanel extends JPanel {
 		ageTextField.setBounds(443, 45, 230, 30);
 		patientDetailsContainer.add(ageTextField);
 
-		genderDropdown = new JComboBox();
+		genderDropdown = new JComboBox<>();
+		genderDropdown.addItem("Male");
+		genderDropdown.addItem("Female");
+		genderDropdown.addItem("Others");
+		
 		genderDropdown.setFont(new Font("Open Sans", Font.BOLD, 12));
 		genderDropdown.setBorder(new LineBorder(Color.decode("#262626")));
 		genderDropdown.setBackground(Color.decode("#ffffff"));
@@ -282,9 +308,32 @@ public class AddAppointmentPanel extends JPanel {
 				Router.INSTANCE.route(AppointmentPanel.class);
 			}
 		});
+
+		attendNowBtn.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeColor(Color.decode("#99c2ff"), attendNowBtn);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				changeColor(Color.decode("#4d94ff"), attendNowBtn);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Router.INSTANCE.route(PatientPanel.class);
+			}
+		});
 	}
 
 	private void changeColor(Color color, Component component) {
 		component.setBackground(color);
+	}
+
+	@Override
+	public void execute() {
+		
 	}
 }

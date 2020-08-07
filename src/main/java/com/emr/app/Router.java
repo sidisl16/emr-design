@@ -3,14 +3,14 @@ package com.emr.app;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public enum Router {
 
 	INSTANCE;
 
 	private JLayeredPane layeredPane;
-	private ConcurrentHashMap<Class, JPanel> routes;
+	private ConcurrentHashMap<Class, RoutingPanel> routes;
 
 	private Router() {
 		routes = new ConcurrentHashMap<>();
@@ -20,14 +20,15 @@ public enum Router {
 		this.layeredPane = layeredPane;
 	}
 
-	public void registerRoute(JPanel route) {
+	public void registerRoute(RoutingPanel route) {
 		this.routes.put(route.getClass(), route);
 	}
 
 	public void route(Class route) {
 		layeredPane.removeAll();
-		layeredPane.add(routes.get(route));
-		layeredPane.repaint();
+		RoutingPanel panel = routes.get(route);
+		panel.execute();
+		layeredPane.add(panel);
 		layeredPane.revalidate();
 	}
 

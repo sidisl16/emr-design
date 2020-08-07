@@ -11,25 +11,29 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
-public class AppointmentPanel extends JPanel {
+public class AppointmentPanel extends RoutingPanel {
 
 	/**
 	 * 
@@ -54,6 +58,9 @@ public class AppointmentPanel extends JPanel {
 	private JTable appointmentTable;
 	private JLabel copyrightInfo;
 	private JTableHeader tableHeader;
+	private JDialog progressDialog;
+	private JProgressBar progressBar;
+	private volatile Integer count = 0;
 
 	/**
 	 * Create the panel.
@@ -61,6 +68,10 @@ public class AppointmentPanel extends JPanel {
 	public AppointmentPanel() {
 		initComponents();
 		initEvents();
+	}
+
+	public void setProgressDialog(JProgressBar progressBar) {
+		this.progressBar = progressBar;
 	}
 
 	private void initComponents() {
@@ -180,12 +191,13 @@ public class AppointmentPanel extends JPanel {
 		appointmentTable = new JTable();
 		appointmentTable.setGridColor(Color.decode("#737373"));
 		appointmentTable.setFont(new Font("Open Sans", Font.PLAIN, 16));
-		appointmentTable.setModel(new DefaultTableModel(
-				new Object[][] { { null, null, null, null, null, null, null },
-						{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null },
-						{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null }, },
-				new String[] { "Sl. No.", "Patient Name", "Age", "Gender", "Patient Number", "Appointment Time",
-						"Action" }));
+		appointmentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		UneditableTableDataModel uneditableTableDataModel = new UneditableTableDataModel(
+				new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
+						{ null, null, null, null, null, null }, },
+				new String[] { "Sl. No.", "Patient Name", "Age", "Gender", "Patient Number", "Appointment Time" });
+		appointmentTable.setModel(uneditableTableDataModel);
 		tableHeader = appointmentTable.getTableHeader();
 		tableHeader.setPreferredSize(new Dimension(100, 32));
 		appointmentTable.setRowHeight(32);
@@ -217,10 +229,23 @@ public class AppointmentPanel extends JPanel {
 			public void mouseExited(MouseEvent e) {
 				changeColor(Color.decode("#4d94ff"), addPanel);
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Router.INSTANCE.route(AddAppointmentPanel.class);
+			}
+		});
+
+		appointmentTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					SwingUtilities.invokeLater(() -> progressBar.setValue(50));
+					SwingUtilities.invokeLater(() -> progressBar.setValue(70));
+					SwingUtilities.invokeLater(() -> progressBar.setValue(100));
+					Router.INSTANCE.route(PatientPanel.class);
+				}
+
 			}
 		});
 	}
@@ -228,9 +253,18 @@ public class AppointmentPanel extends JPanel {
 	private void changeColor(Color color, Component component) {
 		component.setBackground(color);
 	}
+
+	@Override
+	public void execute() {
+		
+	}
 }
 
 class TextPrompt extends JLabel implements FocusListener, DocumentListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JTextComponent component;
 	Document document;
 

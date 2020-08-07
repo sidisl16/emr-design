@@ -4,16 +4,18 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -57,6 +59,7 @@ public class AutoSuggestionComponent extends JPanel {
 
 		listModel = new DefaultListModel<>();
 		list = new JList<>(listModel);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(list);
 		scrollPane.setVisible(false);
 		initEvents();
@@ -109,6 +112,16 @@ public class AutoSuggestionComponent extends JPanel {
 				String selectedText = list.getSelectedValue();
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !Strings.isNullOrEmpty(selectedText)
 						&& defaultTableModel != null) {
+					defaultTableModel.addRow(new Object[] { defaultTableModel.getRowCount() + 1, selectedText });
+				}
+			}
+		});
+
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String selectedText = list.getSelectedValue();
+				if (e.getClickCount() == 2 && !Strings.isNullOrEmpty(selectedText) && defaultTableModel != null) {
 					defaultTableModel.addRow(new Object[] { defaultTableModel.getRowCount() + 1, selectedText });
 				}
 			}
