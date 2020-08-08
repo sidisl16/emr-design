@@ -73,9 +73,6 @@ public class HomeScreen extends JFrame {
 	private PatientPanel patientPanel;
 	private JProgressBar progressBar;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -89,10 +86,7 @@ public class HomeScreen extends JFrame {
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public HomeScreen() {
 		initComponents();
 		Router.INSTANCE.setLayeredPane(bodyLayeredPan);

@@ -62,6 +62,15 @@ public class AddAppointmentPanel extends RoutingPanel {
 	private JPanel attendNowBtn;
 	private JLabel orTextLbl;
 	private JLabel attendBtnLbl;
+	private JTextField patientNoTextField;
+	private JTextField patientNameTextField;
+	private JTextField contactNoTextField;
+	private JPanel searchPatientPanel;
+	private JLabel lblPatientNo;
+	private JLabel lblPatientName;
+	private JLabel lblContactNo;
+	private JPanel searchButton;
+	private JLabel searchPatientBtnLbl;
 
 	/**
 	 * Create the panel.
@@ -74,6 +83,7 @@ public class AddAppointmentPanel extends RoutingPanel {
 	private void initComponents() {
 		setBackground(Color.decode("#ffffff"));
 		setLayout(new BorderLayout(0, 0));
+		setSize(1200, 600);
 
 		appointmentHeadingPanel = new JPanel();
 		appointmentHeadingPanel.setBorder(new LineBorder(Color.decode("#bfbfbf")));
@@ -269,12 +279,67 @@ public class AddAppointmentPanel extends RoutingPanel {
 		genderDropdown.addItem("Male");
 		genderDropdown.addItem("Female");
 		genderDropdown.addItem("Others");
-		
+
 		genderDropdown.setFont(new Font("Open Sans", Font.BOLD, 12));
 		genderDropdown.setBorder(new LineBorder(Color.decode("#262626")));
 		genderDropdown.setBackground(Color.decode("#ffffff"));
 		genderDropdown.setBounds(67, 89, 231, 26);
 		patientDetailsContainer.add(genderDropdown);
+
+		searchPatientPanel = new JPanel();
+		searchPatientPanel.setBackground(Color.BLUE);
+		searchPatientPanel.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "Search Existing Patient",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		searchPatientPanel.setOpaque(false);
+		searchPatientPanel.setBounds(767, 26, 345, 238);
+		patientDetailsContainer.add(searchPatientPanel);
+		searchPatientPanel.setLayout(null);
+
+		lblPatientNo = new JLabel("Patient No.");
+		lblPatientNo.setFont(new Font("Open Sans", Font.BOLD, 12));
+		lblPatientNo.setBounds(12, 42, 85, 17);
+		searchPatientPanel.add(lblPatientNo);
+
+		patientNoTextField = new JTextField();
+		patientNoTextField.setColumns(10);
+		patientNoTextField.setBorder(new LineBorder(Color.decode("#262626")));
+		patientNoTextField.setBounds(103, 36, 230, 30);
+		searchPatientPanel.add(patientNoTextField);
+
+		lblPatientName = new JLabel("Patient Name");
+		lblPatientName.setFont(new Font("Open Sans", Font.BOLD, 12));
+		lblPatientName.setBounds(12, 100, 85, 17);
+		searchPatientPanel.add(lblPatientName);
+
+		patientNameTextField = new JTextField();
+		patientNameTextField.setColumns(10);
+		patientNameTextField.setBorder(new LineBorder(Color.decode("#262626")));
+		patientNameTextField.setBounds(103, 94, 230, 30);
+		searchPatientPanel.add(patientNameTextField);
+
+		lblContactNo = new JLabel("Contact No.");
+		lblContactNo.setFont(new Font("Open Sans", Font.BOLD, 12));
+		lblContactNo.setBounds(12, 159, 85, 17);
+		searchPatientPanel.add(lblContactNo);
+
+		contactNoTextField = new JTextField();
+		contactNoTextField.setColumns(10);
+		contactNoTextField.setBorder(new LineBorder(Color.decode("#262626")));
+		contactNoTextField.setBounds(103, 153, 230, 30);
+		searchPatientPanel.add(contactNoTextField);
+
+		searchButton = new JPanel();
+		searchButton.setBorder(new LineBorder(Color.decode("#262626")));
+		searchButton.setBackground(Color.decode("#4d94ff"));
+		searchButton.setBounds(215, 195, 118, 30);
+		searchPatientPanel.add(searchButton);
+		searchButton.setLayout(new BorderLayout(0, 0));
+
+		searchPatientBtnLbl = new JLabel("Search");
+		searchPatientBtnLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		searchPatientBtnLbl.setForeground(Color.decode("#ffffff"));
+		searchPatientBtnLbl.setFont(new Font("Open Sans", Font.BOLD, 12));
+		searchButton.add(searchPatientBtnLbl, BorderLayout.CENTER);
 	}
 
 	private void initEvents() {
@@ -326,6 +391,19 @@ public class AddAppointmentPanel extends RoutingPanel {
 				Router.INSTANCE.route(PatientPanel.class);
 			}
 		});
+
+		searchButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				changeColor(Color.decode("#99c2ff"), searchButton);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				changeColor(Color.decode("#4d94ff"), searchButton);
+			}
+		});
 	}
 
 	private void changeColor(Color color, Component component) {
@@ -334,6 +412,6 @@ public class AddAppointmentPanel extends RoutingPanel {
 
 	@Override
 	public void execute() {
-		
+
 	}
 }
